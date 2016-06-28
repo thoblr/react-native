@@ -103,9 +103,12 @@ public class ReactWebViewManager extends SimpleViewManager<WebView> {
     public void onPageStarted(WebView webView, String url, Bitmap favicon) {
       super.onPageStarted(webView, url, favicon);
       mLastLoadFailed = false;
-      
+
       // Allow mixed-content videos on Android.
-      webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+      int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+      if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+          webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+      }
 
       dispatchEvent(
           webView,
